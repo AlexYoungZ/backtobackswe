@@ -1133,6 +1133,245 @@ The logarithm is critical for all of these applications since the question it as
 
 ---
 
+Search A Maze For Any Path - Depth First Search Fundamentals (Similar To "The Maze" on Leetcode)
+
+Question: Given a 2D array of black and white entries representing a maze with designated entrance and exit points, find a path from the entrance to the exit, if one exists.
+
+The code:
+https://github.com/bephrem1/backtobac...
+
+Graph search methodologies apply well to problems that have an aspect of a spatial relationship.
+
+
+Approach 1 (Brute Force)
+
+We could try to enumerate all possible paths in the maze from the start to the finish and then check all paths to see if any of them are valid (have all white squares, aka do not run over a wall).
+
+This is both naive and extremely costly in terms of time.
+
+
+Approach 2 (Graph BFS or DFS)
+
+We will imagine each cell as a vertex and each adjacent relationship as the edges connecting nodes.
+
+Do we use DFS or BFS?
+
+If we use BFS we know that the path that we find will be the shortest path because of how it searches (wide, going out layer by layer).
+
+If we use DFS we can have the call stack remember the path making things easier to implement.
+
+If we hit the end cell, then we will know that every call below in the call stack has a node apart of the answer path.
+
+Since the problem just wants any path then we will use DFS since it is more straight-forward.
+
+
+Complexities
+
+Time: O( | V | + | E | )
+The standard time complexity for DFS
+
+Space: O( | V | )
+We will at maximum the length of the path on the call stack through our recursion
+
+Note: The problem on Leetcode requires BFS to pass because DFS will not always find the shortest path, but I did DFS in this video just for teaching purposes.
+
+---
+
+Depth First & Breadth First Graph Search - DFS & BFS Graph Searching Algorithms
+
+
+DFS and BFS are not just graph search algorithms. They are a fundamental method for searching relationships in a certain way and visiting nodes of any sort in a desired order.
+
+These relationships may be represented in a graph, or we may be checking the distance one string is in character changes from another string, OR we may be traversing a tree a certain way.
+
+These are searching concepts, not just graph concepts.
+
+
+Implementation
+
+DFS can be done iteratively using a stack or done recursively because the call stack will serve as the stack to remember points to backtrack to.
+
+A stack structure can replace our stack frames from recursion, this is why DFS can be written recursively, due to the Last-In-First-Out (LIFO) of the order nodes are processed.
+
+BFS is done iteratively. It uses a queue that has a First-In-First-Out processing order.
+
+
+Use Cases
+
+DFS is good for things like backtracking, getting to leaf nodes in a tree, or anything where we want to prioritize going very deep into a path and exhausting possibilities before coming back.
+
+BFS is better for things like finding if a path exists between one node to another since it prioritizes width of search over depth (hence "breadth-first") and finding distance or "levels" something is away from something else.
+
+
+The Method
+
+1.) Choose the data structure based on the search.
+2.) Add the start node.
+3.) Remove the a node from the data structure.
+4.) If the node has not been seen
+   4a.) Mark it as seen in the "seen" set.
+   4b.) Do work on the node.
+5.) For each of the children
+   5a.) If child has not been seen (not bee processed)
+      5ai.) Add the child to the data structure.
+
+Repeat while the data structure is not empty.
+
+
+Time Complexities
+
+If relationships are represented with an adjacency list then:
+
+Time: O(V + E)
+Space: O(V)*
+
+Where V is the total number of vertices (or nodes) visited and E is the total numbers of edges traversed.
+
+*Although things will vary. We only care about the MAXIMUM amount of nodes in the data structure at one time. If we are doing DFS on balanced tree the space complexity would be O(h) where h is the height of the tree since we would only have a path h nodes long at MAX living on the stack. Same for if we do a level order traversal of a tree. The space will only be the MAXIMUM WIDTH of the tree because we would only keep that many nodes on the queue at MAX at one time. And on and on...just depends, ask your interviewer whether they want worst, average, or best case analysis.
+
+"adjacency list" means each node stores its adjacent neighbors in a list
+
+---
+
+The Ultimate Big O Notation Tutorial (Time & Space Complexity For Algorithms)
+
+
+Big O notation is very important for software engineering interviews. It really shows your capacity to critically think like an engineer.
+
+The question that Big O answers is this: “how does the speed of this algorithm SCALE as the input to the system SCALES." That is it. It is a question of scale, not precise numbers. This is why we drop constants.
+
+More precisely it is saying that if we give this algorithm VERY LARGE input, what will the UPPER BOUND of the runtime be? What will that tail behaviour be dictated by?
+
+We say O(N) but what is n? Never say "n" without knowing what n is. Know what n is. Is it the string length? Is it the array length? Is it the number of nodes in the tree? What is it?
+
+When we talk Big Oh we normally calculate the worst case and state that as the time complexity, hence giving it an upper bound that it cannot cross and hugs closely.
+
+Space is calculated just like time complexity, do not be confused, but the question shifts to: “how does the space usage of this algorithm SCALE as the input to the system SCALES." (tail behavior)
+
+I know you want to memorize the "shape" and "pattern" of certain code but do not do this. Understand what is happening.
+
+You will actually need to know what is going on to know them in their worst, average, and best case (although we care most about the average and worst).
+
+It will help you find the optimal solution if you know the best complexity you can reach, it implies a method you can use that famously has that time complexity.
+
+If you hear log(n) you know that the solution will use binary search or some algorithm that halves the input somehow...
+
+In an interview you can't guess and that is the whole point of this, you will be put on the spot and have to explain. Explain confidently, be precise.
+
+If you don't understand why something has the complexity it has don't be ok with not understanding, understand it, find out why and really think about what is happening. This will make you a stronger thinker and be able to tackle harder and harder problems.
+
+Also, recursive and backtracking complexities are harder to calculate so just practice, those come with time and experience. Don't be discouraged...
+
+bubble / selection / insertion sort O(n^2) (1/2*n^2)
+
+backtracking / recursion subsets O(2^n)
+
+permutation O(n!) n-factorial
+
+Optimizing: tradeoff  mostly increase space lower time
+
+log(n)? already sorted -> binary search
+
+---
+
+Arrays, Primitives, & Strings
+
+---
+
+Add Two Numbers Without The "+" Sign (Bit Shifting Basics)
+
+different encodings
+
+& : only show position need carry
+
+^ XOR: simulating addition
+
+<< left shift : 
+
+---
+
+Max Contiguous Subarray Sum - Cubic Time To Kadane's Algorithm ("Maximum Subarray" on LeetCode)
+
+Question: Given an integer array, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+The code: https://github.com/bephrem1/backtobac...
+
+Approaches Covered:
+
+- Approach 1 O(n^3) Time Solution
+- Approach 2 O(n^2) Time Solution
+- Approach 3 O(n) Solution (Kadane's Algorithm)
+- - - maxSum[i] = max( A[i], A[i] + maxSum[i - 1] )
+
+---
+
+Increment An Integer Represented As An Array ("Plus One" on LeetCode)
+
+Question: Given an array that represents an integer digit by digit, perform an increment by 1 operation on it.
+
+The code: https://github.com/bephrem1/backtobac...
+
+
+Examples:
+
+1
+
+Input
+[ 1, 2, 9 ]
+
+Output
+[ 1, 3, 0 ]
+
+2
+
+Input
+[ 9, 9, 9, 9 ]
+
+Output
+[ 1, 0, 0, 0, 0 ]
+
+
+Approach 1 (Brute Force)
+
+Convert the array to an integer.
+
+Increment the integer.
+
+Re-codify the integer as an array or just place it back into the original array digit by digit.
+
+When we have an array of a certain size this will fail because of integer overflow on the initial conversion (array to integer).
+
+Whenever we get an integer represented as an array or an integer as a string we are never going to go back to its original form.
+
+The point of the question is for you to do the operation within the confines of the question.
+
+
+Approach 2 (Increment Within The Array)
+
+We can just simulate the incrementing by 1 starting at the last element.
+
+If we increment and that element becomes 10 we need to continue incrementing to the left until we reach the start of the array.
+
+Edge Case: We then check the first element, if it is 10 then we need to expand the array by 1 and set the first element to 1.
+
+
+Complexities
+
+Time: O( n )
+We may potentially have to perform n increments followed by lengthening the array to add a 1 in the most significant digit
+All of these operations run in linear time.
+
+Space: O( 1 )
+We operate within the original array given and do not create additional space.
+
+In the case where we need to expand the array by 1 element at the front we will be creating a new array and copy the elements over but this is an edge case and is an internal API operation so isn't often counted.
+
+---
+
+Find The Second Largest Item - Heap & Tracking Approach (Beginner Big N Interview Question)
+
+
+
 
 
 

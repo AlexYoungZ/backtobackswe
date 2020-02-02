@@ -9,6 +9,8 @@
   The video to explain this code is here: https://www.youtube.com/watch?v=W9F8fDQj7Ok
 */
 
+// BFS-shortest path
+
 /*
   Black cells are walls. We cannot "walk" on them.
   White cells are traversable. We can "walk" on white cells.
