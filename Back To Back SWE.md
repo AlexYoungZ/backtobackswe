@@ -1370,6 +1370,262 @@ In the case where we need to expand the array by 1 element at the front we will 
 
 Find The Second Largest Item - Heap & Tracking Approach (Beginner Big N Interview Question)
 
+Question: Given an array that may or may not be sorted, find the second largest item.
+
+The code: https://github.com/bephrem1/backtobac...
+
+
+Approach 1 (Single Pass)
+
+We keep track of a variable for the maximum number and keep track of a varaible for the minimum number.
+
+We do a linear traversal.
+
+We keep track of a firstMax and a secondMax.
+
+If the element is greater than firstMax:
+firstMax becomes secondMax.
+the element becomes firstMax.
+
+Otherwise, if the first element is larger than secondMax and it is not the firstMax:
+the element becomes secondMax.
+
+
+The key thing here is to realize the case where the element might not dominate firstMax but it might still dominate the secondMax but it cannot dominate the secondMax if it is firstMax or else we will lose our actual secondMax.
+
+At the end if secondMax is still not defined then we do not have an answer, otherwise, secondMax is our answer.
+
+
+Complexities
+
+Time: O( n )
+n is the length of the array
+
+Space: O( 1 )
+we do not create anything past local variables that are primitives
+
+
+Approach 2 (Min Heap)
+
+We can use a min heap to hold at maximum 2 items. A min-heap will always have the smallest item available to us so we can get rid of it to only keep the k largest items.
+
+it is almost like we need to think in opposites:
+to extract the k max elements we use a min heap.
+to extract the k min elements we use a max heap.
+
+This is because the heap type desired corresponds to the item that we care the least about. To find maxes we don't care about mins. To find mins we don't care about maxes.
+
+Every time we add a 3rd item we eject the smallest item from the min heap.
+
+By the end of the traversal, we can just eject what our min heap held and that will be the 2nd largest item in the array.
+
+Complexities
+
+Time: O( n * log(2) ) = O( n )
+
+insertion and removal from the heap will always take log(2) which is O( 1 ) time ("constant") assuming that it is a balanced binary heap.
+
+We traverse an array of length n.
+
+Space: O( 2 ) = O ( 1 )
+
+The space used for the min heap will always be constant.
+
+
+Critical that you keep in mind:
+empty cases [  ]
+cases where there is only 1 item [ 2 ]
+cases where there are repeated items [ 3, 3, 3, 3, 3, 3 ], etc.
+
+---
+
+Generate All Strings With n Matched Parentheses - Backtracking ("Generate Parentheses" on LeetCode)
+
+Question: Write a program that takes as input a number n in and returns all the strings with n matched pairs of parens.
+
+The code: https://github.com/bephrem1/backtobac...
+
+
+Examples:
+
+n = 1
+[ "()" ]
+
+n = 2
+[ "(())", "()()" ]
+
+n = 3
+[ "((()))","(()())","(())()","()(())","()()()" ]
+
+
+Approach 1 (Brute Force Then Validate)
+
+Generate all (2 ^ (2n)) possible parenthese strings and then validate each for being balanced.
+
+If n = 2 then the string length will be 2 times that since all open parentheses are matched by closed parentheses.
+
+This lower bounds our time complexity.
+
+Even if we restrict the enumeration to just sets with an equal number of left and right parentheses we will have choose(2k, k) strings to consider for validation.
+
+
+Approach 2 (Directed Backtracking)
+
+The 3 Keys To Backtracking
+
+Our Choice:
+Whether we place a left or right paren at a certain decision point in our recursion.
+
+Our Constraints:
+We can't place a right paren unless we have left parens to match against.
+
+Our Goal:
+Place all k left and all k right parens.
+
+
+The Key
+
+At each point of constructing the string of length 2k we make a choice.
+
+We can place a "(" and recurse or we can place a ")" and recurse.
+
+But we can't just do that placement, we need 2 critical pieces of information.
+
+The amount of left parens left to place.
+The amount of right parens left to place.
+
+We have 2 critical rules at each placement step.
+
+We can place a left parentheses if we have more than 0 left to place.
+
+We can only place a right parentheses if there are left parentheses that we can match against.
+
+We know this is the case when we have less left parentheses to place than right parentheses to place.
+
+Once we establish these constraints on our branching we know that when we have 0 of both parens to place that we are done, we have an answer in our base case.
+
+Time:()
+Space:O(n*2)=O(n) call stack
+
+---
+
+Compute The Next Permutation of A Numeric Sequence - Case Analysis ("Next Permutation" on Leetcode)
+
+Question: Given a permutation of a sequence, calculate the next permutation in that sequence (if the permutation given is the last one, just return an empty array since it has no next permutation...it is the last permutation).
+
+The code: https://github.com/bephrem1/backtobac...
+
+
+Approach 1 (Brute Force)
+
+We can compute all permutations and stop on the permutation right after the permutation given.
+
+This can have us generate n! permutations in the worst case (the permutation given is the last one).
+
+
+Approach 2 (Use Intuition & Patterns)
+
+Permutation Sequence Example:
+
+[0, 1, 2]
+
+1.)   [0, 1, 2]
+2.)   [0, 2, 1]
+3.)   [1, 0, 2]
+4.)   [1, 2, 0]
+5.)   [2, 0, 1]
+6.)   [2, 1, 0]
+
+This approach will use the idea that we notice patterns.
+
+Notice how we plant the 0, the 1, then the 2 in the first slot as we go through the sequence.
+
+Also, notice how the last element is the array completely reversed.
+
+These may not matter but we are just piecing things together right now.
+
+Let's formulate a plan.
+
+[6, 2, 1, 5, 4, 3, 0]
+
+We know to get to this permutation we
+
+rooted 6
+rooted 2
+rooted 1
+
+If you remember back to generating permutations it was all about planting items and then picking from a pool of remaining items.
+
+When we plant 1 we have a pool like so [5, 4, 3, 0].
+
+Remember how the last permutation was the original pool reversed? We will look for the longest reversed pool because we know that it is the last permutation for that particular rooting.
+
+This is [5, 4, 3, 0] in the example given. This is a maximum suffix after the planted 1.
+
+1 is of interest since this means we have exhausted the possibilities of permutations with 1 rooted where it is since it's suffix following it is strictly decreasing.
+
+SO TO GET THE NEXT PERMUTATION WE SWAP 1 AND THE SMALLEST NEXT ELEMENT TO MINIMIZE CHANGE IN THE PERMUTATION.
+
+We are considering back to the rooting [6, 2] which has a possible pool of [0, 1, 2, 3, 5]
+
+0 got it's turn in index 2
+1 got it's turn and is finished
+
+SO THE NEXT LARGEST ELEMENT IN 1's SUFFIX IS NEXT TO BE PLANTED THERE.
+
+Swapping yields [6, 2, 3, 5, 4, 1, 0].
+
+NOT DONE.
+
+Now the prefix has been advanced in the smallest way possible. BUT the suffix of our choice to plant 3 may not be the smallest it could be to be the next permutation.
+
+NOTICE: The first permutation was in STRICTLY INCREASING order. We need to get our suffix in strictly increasing order
+We don't need to use a sorting algorithm since that is expensive.
+
+Remember, the suffix was in strictly decreasing order before, so all we need to do is reverse it and we will have a sorted suffix.
+
+When you really grasp how permutations are made then this will make a lot more sense and you probably could get this in an interview.
+
+Complexities:
+
+Time: O( n )
+We are just doing linear time passes through all of this so we stay linear in time throughout.
+
+Space: O( 1 )
+We just use a few local variables, our space usage does not scale as input size gets very large.
+
+---
+
+Edit Distance Between 2 Strings - The Levenshtein Distance ("Edit Distance" on LeetCode)
+
+Question: Write a program that takes two strings and computes the minimum number of edits needed to transform the first string into the second string.
+
+The code: https://github.com/bephrem1/backtobac...
+
+Examples:
+
+Input: "Saturday" and "Sundays"
+Output: 4
+
+Why:
+In: "Saturday"
+1.) Delete the first 'a' ("Sturday")
+2.) Delete the first 't' ("Surday")
+3.) Replace 'r' with 'n' ("Sunday")
+4.) Insert an 's' at the end ("Sundays")
+Out: "Sundays"
+
+Our 3 Operations To Fix Character Mismatch:
+- Insert
+- Delete
+- Replacement
+
+---
+
+Partition To K Equal Sum Subsets From An Array of Integers - The Backtracking Approach
+
+
+
 
 
 
